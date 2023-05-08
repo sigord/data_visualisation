@@ -15,4 +15,5 @@ dependencies:
 - jupyter-dash
 - openpyxl
 - dash-bootstrap-components
+- scikit-learn
 

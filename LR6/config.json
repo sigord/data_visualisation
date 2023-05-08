@@ -1,0 +1,24 @@
+{
+    "themeSettings": [
+      {
+        "logo": "https://devtest-ui.ai-surge.cloud/assets/img/ai-surge-logo_1.png",
+        "colour": "#751151",
+        "title": "Динамика показателей продаж Northwind\n",
+        "description": "Дашборд позволяет посмотреть, динамику продаж продуктов и финансовую активность покупателей и продавцов",
+        "favicon": "assets/favicon.ico",
+        "background_image": "assets/bg.png"
+      }
+    ],
+    "currency_sign": "$",
+    "number_format": ",",
+    "color_palette": {
+      "palette": "orange_palette",
+      "all possible palettes": [
+        "orange_palette",
+        "red_palette",
+        "blue_palette",
+        "diverging_palette"
+      ]
+    }
+  }
+  

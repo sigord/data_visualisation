@@ -1,0 +1,10 @@
+jupyter
+numpy
+matplotlib
+pandas
+tqdm
+dash>=2.8.1
+jupyter-dash
+openpyxl
+dash-bootstrap-components>=1.4.1
+scikit-learn
