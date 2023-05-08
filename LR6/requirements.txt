@@ -8,3 +8,4 @@ jupyter-dash
 openpyxl
 dash-bootstrap-components>=1.4.1
 scikit-learn
+gunicorn
