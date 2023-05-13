@@ -3,9 +3,9 @@ numpy
 matplotlib
 pandas
 tqdm
-dash>=2.8.1
-jupyter-dash
+dash==2.8.1
+jupyter-dash==0.4.2
 openpyxl
-dash-bootstrap-components>=1.4.1
+dash-bootstrap-components==1.4.1
 scikit-learn
 gunicorn
