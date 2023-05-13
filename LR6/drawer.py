@@ -6,15 +6,30 @@ import pandas as pd
 import numpy as np
 from typing import Optional, List
 
+TEXT_STYLE = "Arial"
+TEXT_SIZE = 12
+TEXT_COLOR = "#005ce6"
+BACKGROUND_COLOR = "#f4f4f4"
+
 # plot 1
 def get_revenue_plot(df: pd.DataFrame, date_start: Optional[str], date_end: Optional[str], category_value: Optional[List[str]], region_value: Optional[List[str]], shipcountry_value: Optional[List[str]]):
     filtered_df = filter_dataframe(df, date_start, date_end, category_value, region_value, shipcountry_value)
     if len(filtered_df) != 0:
         filtered_df  = filtered_df[['orderdate', 'revenue']].resample('W-MON', on='orderdate').sum().reset_index().sort_values('orderdate')
-    # detect anomalies with IsolationForest
-    # TODO: add anomaly detection
     
-    return px.line(filtered_df, x="orderdate", y="revenue")
+    # detect anomalies with IsolationForest
+    filtered_df = anomaly_detection(filtered_df)
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=filtered_df['orderdate'], y=filtered_df['revenue'], mode='lines', name='Revenue'))
+    fig.add_trace(go.Scatter(x=filtered_df.loc[filtered_df['anomaly'] == -1, 'orderdate'], y=filtered_df.loc[filtered_df['anomaly'] == -1, 'revenue'], mode='markers', name='Anomaly'))
+    fig.update_layout(font=dict(family=TEXT_STYLE, size=TEXT_SIZE, color=TEXT_COLOR),
+                      plot_bgcolor=BACKGROUND_COLOR,
+                      paper_bgcolor=BACKGROUND_COLOR,
+                      title = 'Revenue per week',
+                      title_x = 0.5,)
+    fig.update_xaxes(title_text='Date')
+    fig.update_yaxes(title_text='Revenue')
+    return fig
 
 # plot 2
 def get_sunburst_plot(df: pd.DataFrame, date_start: Optional[str], date_end: Optional[str], region_value: Optional[List[str]], shipcountry_value: Optional[List[str]]):
@@ -31,9 +46,12 @@ def get_sunburst_plot(df: pd.DataFrame, date_start: Optional[str], date_end: Opt
         filtered_df['rank'] = filtered_df.groupby('categoryname')['revenue'].rank(ascending=False)
         filtered_df.loc[filtered_df['rank'] > 3, 'productname'] = 'Other'
         filtered_df.sort_values(['categoryname', 'revenue'], inplace=True, ascending=False)
-    fig = px.sunburst(filtered_df, path=['categoryname', 'productname'], values='revenue')
-    # big size
-    fig.update_layout(margin=dict(t=0, l=0, r=0, b=0))
+    fig = px.sunburst(filtered_df, path=['categoryname', 'productname'], values='revenue', 
+                      title='Top 3 categories by sum of revenue of selected time period',
+                      color='categoryname', color_discrete_sequence=px.colors.qualitative.Pastel,)
+    fig.update_layout(margin=dict(t=10, l=0, r=0, b=50), title_y=0.05, title_x=0.5,
+                      font=dict(family=TEXT_STYLE, size=TEXT_SIZE, color=TEXT_COLOR),
+                      plot_bgcolor=BACKGROUND_COLOR, paper_bgcolor=BACKGROUND_COLOR)
     return fig
 
 # plot 4
@@ -44,7 +62,12 @@ def get_horisontal_box_plot(df: pd.DataFrame, date_start: Optional[str], date_en
     filtered_df = filter_dataframe(df, date_start, date_end, category_value, None, shipcountry_value)
     if len(filtered_df) != 0:
         filtered_df = filtered_df[['orderdate', 'revenue', 'region']].groupby(['region', pd.Grouper(key='orderdate', freq='W-MON')]).mean().reset_index().sort_values('orderdate')
-    return px.box(filtered_df, x="revenue", y="region", orientation='h', color='region')
+    fig =  px.box(filtered_df, x="revenue", y="region", orientation='h', 
+                  color='region', title='Mean revenue per week for each region',
+                  color_discrete_sequence=px.colors.qualitative.Pastel)
+    fig.update_layout(title_x=0.5, font=dict(family=TEXT_STYLE, size=TEXT_SIZE, color=TEXT_COLOR),
+                      plot_bgcolor=BACKGROUND_COLOR, paper_bgcolor=BACKGROUND_COLOR)
+    return fig
 
 # plot 3 tables
 def data_bars_diverging(df: pd.DataFrame, column: str, color_above='#0074D9', color_below='#FF4136'):

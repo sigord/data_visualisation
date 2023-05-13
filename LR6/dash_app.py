@@ -20,8 +20,8 @@ TEXT_SIZE = 14
 TEXT_COLOR = '#808080'
 MARGIN_BOTTOM = "8px"
 
-app = JupyterDash('app', external_stylesheets=[dbc.themes.BOOTSTRAP])
-# app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+# app = JupyterDash('app', external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 server = app.server
 

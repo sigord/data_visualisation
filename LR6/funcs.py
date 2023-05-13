@@ -55,14 +55,27 @@ def get_dataframe(path = PATH) -> pd.DataFrame:
 
 def filter_dataframe_by_cat_column(df: pd.DataFrame, column_name: str, 
                                    allowed_value: List[str]) -> pd.DataFrame:
-    """Returns filtered deep copy of dataframe"""
+    """
+    Returns filtered deep copy of dataframe
+    :param df: dataframe to filter
+    :param column_name: name of column to filter
+    :param allowed_value: list of allowed values
+    :return: filtered dataframe
+    """
     return df.loc[df[column_name].isin(allowed_value)]
 
 def filter_dataframe_by_ordinal_column(df: pd.DataFrame, 
                                        column_name: str, 
                                        allowed_upper_value = None,
                                        allowed_lower_value = None) -> pd.DataFrame:
-    """Returns filtered deep copy of dataframe"""
+    """
+    Returns filtered deep copy of dataframe
+    :param df: dataframe to filter
+    :param column_name: name of column to filter
+    :param allowed_upper_value: upper bound of allowed values
+    :param allowed_lower_value: lower bound of allowed values
+    :return: filtered dataframe
+    """
     if allowed_upper_value is not None:
         return df.loc[df[column_name] <= allowed_upper_value]
     if allowed_lower_value is not None:
@@ -76,6 +89,16 @@ def filter_dataframe_by_ordinal_column(df: pd.DataFrame,
 def filter_dataframe(df: pd.DataFrame, 
                      start_date: Optional[str] = None, end_date: Optional[str] = None, category: Optional[List[str]] = None,
                      region: Optional[List[str]] = None, shipcountry: Optional[List[str]] = None) -> pd.DataFrame:
+    """
+    Filters dataframe by given parameters
+    :param df: dataframe to filter
+    :param start_date: start date of period
+    :param end_date: end date of period
+    :param category: list of categories to filter
+    :param region: list of regions to filter
+    :param shipcountry: list of shipcountries to filter
+    :return: filtered dataframe
+    """
     if start_date is not None and end_date is not None:
         df = filter_dataframe_by_ordinal_column(df, "orderdate", 
                                                 datetime.strptime(end_date, '%Y-%m-%d'), 
@@ -91,3 +114,15 @@ def filter_dataframe(df: pd.DataFrame,
             df = filter_dataframe_by_cat_column(df, "shipcountry", shipcountry)
     return df
     
+def anomaly_detection(df: pd.DataFrame, 
+                      contamination: float = 0.07) -> pd.DataFrame:
+    """
+    Returns dataframe with anomaly column
+    
+    :param df: dataframe to detect anomalies
+    :param contamination: contamination parameter for IsolationForest
+    :return: dataframe with anomaly column
+    """
+    df = df.copy()
+    df["anomaly"] = IsolationForest(contamination=contamination).fit_predict(df[["revenue"]])
+    return df
