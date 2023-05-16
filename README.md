@@ -1,5 +1,6 @@
-# Data visualisation
-Data visualisation on python 
+# Data visualization
+
+Data visualization on python
 
 ## Part 1 Matplotlib
 
@@ -18,3 +19,7 @@ Data visualisation on python
 ## Part 4 Dash
 
 * LR 6 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sigord/data_visualisation/blob/main/LR6/lr6.ipynb)
+
+## Part 5 Geographical data visualization
+
+* LR 7 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sigord/data_visualisation/blob/main/LR7/lr7.ipynb)

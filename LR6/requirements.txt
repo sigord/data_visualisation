@@ -9,3 +9,7 @@ openpyxl
 dash-bootstrap-components==1.4.1
 scikit-learn
 gunicorn
+pyproj==3.5.0
+proj==9.2.0
+geopandas
+shapely
