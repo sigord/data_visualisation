@@ -23,3 +23,8 @@ Data visualization on python
 ## Part 5 Geographical data visualization
 
 * LR 7 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sigord/data_visualisation/blob/main/LR7/lr7.ipynb)
+
+## Part 6 Bokeh
+
+* LR 8 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sigord/data_visualisation/blob/main/LR8/lr8.ipynb)
+
